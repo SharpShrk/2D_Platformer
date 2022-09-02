@@ -10,12 +10,16 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private Rigidbody2D _rigidbody2D;
     private bool _isAttack;
+    private float _hitPoints;
+    private float _damage;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _isAttack = false;
+        _hitPoints = 100f;
+        _damage = 10f;
     }
 
     private void Update()
@@ -28,11 +32,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Enemy>(out Enemy enemy) && _isAttack == true)
         {
-
+            enemy.GetDamage(_damage);
         }
     }
 }

@@ -2,17 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(EnemyHealthBar))]
+
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float _hitPoints;
+    private float _damage;
+    private Rigidbody2D _rigidbody2D;
+    private EnemyHealthBar _healthBar;
+
+
+    private void Awake()
+    {
+        _hitPoints = 100f;
+        _damage = 10f;
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _healthBar = GetComponent<EnemyHealthBar>();
+    }
+
+    
+    private void Update()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GetDamage(float damage)
     {
-        
+        _hitPoints -= damage;
+
+        if (_hitPoints <= 0)
+        {
+            Debug.Log("Враг умер");
+            //запустить анимацию смерти, не забыть у игрока сделать также
+        }
+
+        _healthBar.SetHitPoints(damage);
     }
 }

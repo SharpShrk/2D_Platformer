@@ -8,6 +8,7 @@ public class EnemyHealthBar : MonoBehaviour
     [SerializeField] private Image _bar;
 
     private float _fill;
+    private float _damageRatio = 0.01f;
 
     void Start()
     {
@@ -27,5 +28,10 @@ public class EnemyHealthBar : MonoBehaviour
         }
 
         _bar.fillAmount = _fill;
+    }
+
+    public void SetHitPoints(float damage)
+    {
+        _fill -= damage * _damageRatio;
     }
 }

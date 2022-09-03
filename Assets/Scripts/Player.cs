@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Collider2D _attackRange;
+    
     private Animator _animator;
     private Rigidbody2D _rigidbody2D;
     private bool _isAttack;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
         if (collision.TryGetComponent<Enemy>(out Enemy enemy) && _isAttack == true)
         {
             enemy.GetDamage(_damage);
+            //если объект не выходит из триггера, то второй удар не наносится. Сделать StayTrigger и добавить проверку, чтобы не наносилось много урона
         }
     }
 }

@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
 
     public void GetDamage(float damage)
     {
-        _hitPoints -= damage;
+        _hitPoints -= damage; //добавить проверку на отрицательный урон
 
         if (_hitPoints <= 0)
         {
@@ -39,4 +39,6 @@ public class Enemy : MonoBehaviour
 
         _healthBar.SetHitPoints(damage);
     }
+
+    //через invoke(nameof(name), 2f) сделать выстрелы
 }

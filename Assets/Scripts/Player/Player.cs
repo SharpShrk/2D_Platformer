@@ -7,21 +7,25 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Collider2D _attackRange;
-    
+    [SerializeField] private LayerMask EnemyLayerMask;
+
     private Animator _animator;
     private Rigidbody2D _rigidbody2D;
-    private bool _isAttack;
     private float _hitPoints;
     private float _damage;
+    private float _attackRange;
+    private bool _isAttack;
+    private bool _isDrawingModGizmos;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _isDrawingModGizmos = true;
         _isAttack = false;
         _hitPoints = 100f;
         _damage = 10f;
+        _attackRange = 1.3f;
     }
 
     private void Update()
@@ -32,14 +36,41 @@ public class Player : MonoBehaviour
         {
             _animator.SetTrigger("Attack");
         }
+
+        AttackCollision();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnDrawGizmosSelected()
     {
-        if (collision.TryGetComponent<Enemy>(out Enemy enemy) && _isAttack == true)
+        Gizmos.color = Color.red;
+
+        if (_isDrawingModGizmos)
+        {
+            Gizmos.DrawWireSphere(transform.position, _attackRange);
+        }
+    }
+
+    private void AttackCollision()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, _attackRange, EnemyLayerMask);
+
+        if (enemies.Length > 0)
+        {
+            Debug.Log(true);            
+        }
+        else
+        {
+            Debug.Log(false);
+        }
+    }
+
+
+    /*private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (_enemyDetector.IsEnemiesAttacked && _isAttack == true)
         {
             enemy.GetDamage(_damage);
             //если объект не выходит из триггера, то второй удар не наносится. Сделать StayTrigger и добавить проверку, чтобы не наносилось много урона
         }
-    }
+    }*/
 }

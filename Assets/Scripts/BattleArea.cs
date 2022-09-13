@@ -2,33 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class BattleArea : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject _enemyHealthPointBar;
+    [SerializeField] private GameObject _backgroundMusic;
 
-    // Update is called once per frame
-    void Update()
+    private AudioSource _audioSourceBattle;
+    private AudioSource _audioSourceBackground;
+
+    private void Awake()
     {
-        
+        _enemyHealthPointBar.SetActive(false); 
+        _audioSourceBattle = GetComponent<AudioSource>();
+        _audioSourceBackground = _backgroundMusic.GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Enemy>(out Enemy enemy))
+        if (collision.TryGetComponent<Player>(out Player player))
         {
-            //создать событие на запуск баттлмьюзик
+            _enemyHealthPointBar.SetActive(true);
+            _audioSourceBackground.Stop();
+            _audioSourceBattle.Play();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Enemy>(out Enemy enemy))
+        if (collision.TryGetComponent<Player>(out Player player))
         {
-            //создать событие на остановку баттлмьюзик
+            _enemyHealthPointBar.SetActive(false);
+            _audioSourceBattle.Stop();
+            _audioSourceBackground.Play();
         }
     }
 }

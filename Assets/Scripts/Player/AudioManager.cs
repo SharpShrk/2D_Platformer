@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set; }
+
     [SerializeField] private AudioClip _gemClip;
     [SerializeField] private AudioClip _potionCollect;
     [SerializeField] private AudioClip _potionUsed;
@@ -15,6 +17,15 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         _audioSource = GetComponent<AudioSource>();
     }
 

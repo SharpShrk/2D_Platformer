@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform _attackZone;
     [SerializeField] private Player _player;
 
-    private float _hitPoints;
-    private float _attackZoneRange;
-    private float _attackCooldown;
-    private float _attackTimer;
-    private float _jumpTimer;
-    private float _jumpCooldown;
-    private float _jumpHeight;
+    private float _healthPoints = 100f;
+    private float _attackZoneRange = 8f;
+    private float _attackCooldown = 4f;
+    private float _attackTimer = 1f;
+    private float _jumpTimer = 1f;
+    private float _jumpCooldown = 3f;
+    private float _jumpHeight = 400f;
     private bool _isPlayerInAttackZone;
     private bool _isDrawingModGizmos;
     private bool _isDead;
@@ -29,17 +30,14 @@ public class Enemy : MonoBehaviour
     private EnemyHealthBar _healthBar;
     private Animator _animator;
 
+    public event Action EventEnemyTakeDamage;
+
+    public float HealthPoints => _healthPoints;
+
     private void Awake()
     {
-        _hitPoints = 100f;
         _isDead = false;
         _isPlayerInAttackZone = false;
-        _attackCooldown = 4f;
-        _attackTimer = 1f;
-        _jumpTimer = 6f;
-        _jumpCooldown = 3f;
-        _jumpHeight = 400f;
-        _attackZoneRange = 8f;
         _isDrawingModGizmos = true;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -66,19 +64,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GetDamage(float damage)
+    public void TakeDamage(float damage)
     {
-        _hitPoints -= damage;
+        _healthPoints -= damage;
 
-        if (_hitPoints <= 0)
+        if (_healthPoints <= 0)
         {
             _isDead = true;
-            _animator.SetTrigger("Dead");
+            _animator.SetTrigger(AnimatorEnemyController.Params.Dead);
             Destroy(gameObject, 1.5f);
         }
 
-        _healthBar.SetHitPoints(damage);
-        _animator.SetTrigger("Damaged");
+        EventEnemyTakeDamage?.Invoke();
+        //_healthBar.SetHitPoints(damage);
+        _animator.SetTrigger(AnimatorEnemyController.Params.Damaged);
     }
 
     private bool GetPlayerInAttackZone()
@@ -98,18 +97,17 @@ public class Enemy : MonoBehaviour
 
     private void Attack()
     {
-        _isPlayerInAttackZone = GetPlayerInAttackZone();
-        
+        _isPlayerInAttackZone = GetPlayerInAttackZone();        
 
         if (_attackTimer <= 0f && _isPlayerInAttackZone == true && _player.IsDead == false)
         {
-            _animator.SetTrigger("Attack");
+            _animator.SetTrigger(AnimatorEnemyController.Params.Attack);
             Instantiate(_blast, _firePoint.transform);
             _attackTimer = _attackCooldown;
         }
         else if (_player.IsDead == true)
         {
-            _animator.SetBool("PlayerDead", true);
+            _animator.SetBool(AnimatorEnemyController.Params.PlayerDead, true);
         }
         else
         {
@@ -123,7 +121,7 @@ public class Enemy : MonoBehaviour
 
         if (_jumpTimer <= 0f && _isPlayerInAttackZone == true && _player.IsDead == false)
         {
-            _animator.SetTrigger("Jump");
+            _animator.SetTrigger(AnimatorEnemyController.Params.Jump);
             _rigidbody2D.AddForce(new Vector2(0 , _jumpHeight));
             _jumpTimer = _jumpCooldown;
         }
@@ -132,5 +130,16 @@ public class Enemy : MonoBehaviour
             _jumpTimer -= Time.deltaTime;
         }
     }
+}
 
+public static class AnimatorEnemyController
+{
+    public static class Params
+    {
+        public const string Dead = nameof(Dead);
+        public const string Damaged = nameof(Damaged);
+        public const string Attack = nameof(Attack);
+        public const string Jump = nameof(Jump);
+        public const string PlayerDead = nameof(PlayerDead);
+    }
 }

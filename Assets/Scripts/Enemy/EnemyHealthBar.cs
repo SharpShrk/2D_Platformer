@@ -6,32 +6,27 @@ using UnityEngine.UI;
 public class EnemyHealthBar : MonoBehaviour
 {
     [SerializeField] private Image _bar;
+    [SerializeField] private Enemy _enemy;
 
-    private float _fill;
     private float _damageRatio = 0.01f;
+
+    private void OnEnable()
+    {
+        _enemy.EventEnemyTakeDamage += SetHitPoints;
+    }
+
+    private void OnDisable()
+    {
+        _enemy.EventEnemyTakeDamage -= SetHitPoints;
+    }
 
     void Start()
     {
-        _fill = 1f;
+        _bar.fillAmount = _enemy.HealthPoints * _damageRatio;
     }
 
-    void Update()
+    public void SetHitPoints()
     {
-        if (_fill > 1f)
-        {
-            _fill = 1f;
-        }
-
-        if (_fill < 0f)
-        {
-            _fill = 0f;
-        }
-
-        _bar.fillAmount = _fill;
-    }
-
-    public void SetHitPoints(float damage)
-    {
-        _fill -= damage * _damageRatio;
+        _bar.fillAmount = _enemy.HealthPoints * _damageRatio;
     }
 }

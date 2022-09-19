@@ -8,19 +8,24 @@ using UnityEngine.UI;
 public class PlayerHealthBar : MonoBehaviour
 {
     [SerializeField] private Image _bar;
-    
-    private Player _player;
-    private float _coefficientHealthPoints;
+    [SerializeField] private Player _player;
+
+    private float _coefficientHealthPoints = 0.01f;
+
+    private void OnEnable()
+    {
+        _player.EventHealthHasChanged += SetHealthPonts;
+    }
+
+    private void OnDisable()
+    {
+        _player.EventHealthHasChanged -= SetHealthPonts;
+    }
 
     void Start()
     {
-        _coefficientHealthPoints = 0.01f;
         _player = GetComponent<Player>();
-    }
-
-    void Update()
-    {
-        SetHealthPonts();
+        _bar.fillAmount = _player.HealthPoints * _coefficientHealthPoints;
     }
 
     private void SetHealthPonts()

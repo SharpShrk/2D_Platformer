@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private float _jumpHeight = 7f;
     public float MinGroundNormalY = .65f;
     public float GravityModifier = 1f;
     public Vector2 Velocity;
@@ -46,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && grounded)
         {
-            Velocity.y = 7;           
+            Velocity.y = _jumpHeight;           
         }
         
         if(grounded == false)

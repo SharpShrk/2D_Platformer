@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class Gem : MonoBehaviour
 {
-    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _playerObject;
 
-    private AudioManager _audioManager;
+    private Player _player;
     private Inventory _inventory;
     private int _count = 1;
 
-    private void Awake()
+    private void Start()
     {
-        _inventory = _player.GetComponent<Inventory>();
-        _audioManager = _player.GetComponent<AudioManager>();
+        _player = _playerObject.GetComponent<Player>();
+        _inventory = _player.GetInventory;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Player>(out Player player))
         {
-            _audioManager.PlayingGemClip();
+            AudioManager.Instance.PlayingGemClip();
             _inventory.ChangeNumberOfGems(_count);
             Destroy(gameObject);
         }

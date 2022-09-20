@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(EnemyHealthBar))]
 [RequireComponent(typeof(Animator))]
 
 public class Enemy : MonoBehaviour
@@ -25,9 +22,7 @@ public class Enemy : MonoBehaviour
     private bool _isPlayerInAttackZone;
     private bool _isDrawingModGizmos;
     private bool _isDead;
-    private bool _playerIsDead;
     private Rigidbody2D _rigidbody2D;
-    private EnemyHealthBar _healthBar;
     private Animator _animator;
 
     public event Action EventEnemyTakeDamage;
@@ -41,7 +36,6 @@ public class Enemy : MonoBehaviour
         _isDrawingModGizmos = true;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _healthBar = GetComponent<EnemyHealthBar>();
     }
 
     
@@ -76,7 +70,6 @@ public class Enemy : MonoBehaviour
         }
 
         EventEnemyTakeDamage?.Invoke();
-        //_healthBar.SetHitPoints(damage);
         _animator.SetTrigger(AnimatorEnemyController.Params.Damaged);
     }
 

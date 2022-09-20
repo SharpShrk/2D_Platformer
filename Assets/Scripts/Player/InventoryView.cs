@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +20,7 @@ public class InventoryView : MonoBehaviour
         _inventory = _player.GetInventory;
     }
 
-    void Update()
+    private void Update()
     {
         GetInventoryItems();
     }

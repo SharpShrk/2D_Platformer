@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +20,7 @@ public class PlayerHealthBar : MonoBehaviour
         _player.EventHealthHasChanged -= SetHealthPonts;
     }
 
-    void Start()
+    private void Start()
     {
         _player = GetComponent<Player>();
         _bar.fillAmount = _player.HealthPoints * _coefficientHealthPoints;

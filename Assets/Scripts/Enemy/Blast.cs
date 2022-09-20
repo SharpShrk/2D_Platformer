@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -7,8 +5,10 @@ using UnityEngine;
 public class Blast : MonoBehaviour
 {
     [SerializeField] private GameObject _parentsObject;
+
     private float _speed;
     private float _damage;
+    private float _timeToDestroy = 5f;
     private Rigidbody2D _rigidbody2D;
 
     private void Start()
@@ -30,6 +30,6 @@ public class Blast : MonoBehaviour
             Destroy(gameObject);
         }
 
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, _timeToDestroy);
     }
 }

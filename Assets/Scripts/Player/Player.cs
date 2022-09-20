@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -29,9 +27,7 @@ public class Player : MonoBehaviour
     public event Action EventHealthHasChanged;
 
     public bool IsDead => _isDead;
-
     public float HealthPoints => _healthPoints;
-
     public Inventory GetInventory => _inventory;
 
     private void Awake()

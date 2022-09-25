@@ -4858,10 +4858,11 @@ GameObject:
   - component: {fileID: 806320543}
   - component: {fileID: 806320544}
   - component: {fileID: 806320546}
-  - component: {fileID: 1980011714}
+  - component: {fileID: 3897852267467014713}
   - component: {fileID: 1980011715}
   - component: {fileID: 1980011717}
   - component: {fileID: 1980011716}
+  - component: {fileID: 1249226763564339179}
   m_Layer: 7
   m_Name: NinjaPlayer
   m_TagString: Untagged
@@ -5041,7 +5042,7 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 73
---- !u!114 &1980011714
+--- !u!114 &3897852267467014713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5050,10 +5051,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3244002888094154235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c48e804e142371848b3b2145773fb010, type: 3}
+  m_Script: {fileID: 11500000, guid: 59a89a6454170a54db836a4602f2c3c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bar: {fileID: 0}
+  _healthPoints: 100
 --- !u!114 &1980011715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5178,5 +5179,16 @@ MonoBehaviour:
   _potionCollect: {fileID: 8300000, guid: 5aa350b8f5af4cb46846817b9443204a, type: 3}
   _potionUsed: {fileID: 8300000, guid: a0068b6f7a04e594a97cf3d10a0d03fe, type: 3}
   _swordAttack: {fileID: 8300000, guid: 65030e118f40c4f4ba35841189e68a17, type: 3}
-  _backgroundMusic: {fileID: 0}
-  _battleMusic: {fileID: 0}
+--- !u!114 &1249226763564339179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3244002888094154235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f3cd2014e946947b9d64f3ea2e0921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bar: {fileID: 0}

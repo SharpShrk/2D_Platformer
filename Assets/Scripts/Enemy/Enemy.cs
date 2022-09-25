@@ -12,22 +12,24 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform _attackZone;
     [SerializeField] private Player _player;
 
-    private float _healthPoints = 100f;
+    //private float _healthPoints = 100f;
     private float _attackZoneRange = 8f;
     private float _attackCooldown = 4f;
     private float _attackTimer = 1f;
     private float _jumpTimer = 1f;
     private float _jumpCooldown = 3f;
     private float _jumpHeight = 400f;
+    private float _timeToDestroy = 1.5f;
     private bool _isPlayerInAttackZone;
     private bool _isDrawingModGizmos;
     private bool _isDead;
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
+    private Health _health;
 
-    public event Action EventEnemyTakeDamage;
+    //public event Action EventEnemyTakedDamage;
 
-    public float HealthPoints => _healthPoints;
+    //public float HealthPoints => _healthPoints;
 
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class Enemy : MonoBehaviour
         _isDrawingModGizmos = true;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _health = GetComponent<Health>();
     }
 
     
@@ -60,17 +63,21 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        _healthPoints -= damage;
+        float healthPoints;
+        healthPoints = _health.HealthPoints;
+        healthPoints -= damage;
 
-        if (_healthPoints <= 0)
+        _animator.SetTrigger(AnimatorEnemyController.Params.Damaged);
+
+        if (healthPoints <= 0)
         {
             _isDead = true;
             _animator.SetTrigger(AnimatorEnemyController.Params.Dead);
-            Destroy(gameObject, 1.5f);
+            Destroy(gameObject, _timeToDestroy);
         }
 
-        EventEnemyTakeDamage?.Invoke();
-        _animator.SetTrigger(AnimatorEnemyController.Params.Damaged);
+        //EventEnemyTakedDamage?.Invoke();
+        _health.SetHealthPoints(healthPoints);
     }
 
     private bool GetPlayerInAttackZone()

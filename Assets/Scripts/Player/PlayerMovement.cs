@@ -24,22 +24,22 @@ public class PlayerMovement : MonoBehaviour
     protected const float shellRadius = 0.01f;
 
     private float _speed = 5f;
-    private Animator _animation;
+    private Animator _animator;
 
-    void OnEnable()
+    private void OnEnable()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
-        _animation = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
-    void Start()
+    private void Start()
     {
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask(LayerMask);
         contactFilter.useLayerMask = true;
     }
 
-    void Update()
+    private void Update()
     {
         targetVelocity = new Vector2(Input.GetAxis("Horizontal"), 0);
 
@@ -50,30 +50,30 @@ public class PlayerMovement : MonoBehaviour
         
         if(grounded == false)
         {
-            _animation.SetBool("IsGround", false);
+            _animator.SetBool(AnimatorPlayerController.Params.IsGround, false);
         }
         else
         {
-            _animation.SetBool("IsGround", true);
+            _animator.SetBool(AnimatorPlayerController.Params.IsGround, true);
         }
 
         if(targetVelocity.x > 0)
         {
-            _animation.SetBool("IsRunning", true);
+            _animator.SetBool(AnimatorPlayerController.Params.IsRunning, true);
             rigidbody2D.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else if(targetVelocity.x < 0)
         {
-            _animation.SetBool("IsRunning", true);
+            _animator.SetBool(AnimatorPlayerController.Params.IsRunning, true);
             rigidbody2D.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
         else
         {
-            _animation.SetBool("IsRunning", false);
+            _animator.SetBool(AnimatorPlayerController.Params.IsRunning, false);
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         Velocity += GravityModifier * Physics2D.gravity * Time.deltaTime;
         Velocity.x = targetVelocity.x;
@@ -135,3 +135,4 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2D.position = rigidbody2D.position + move.normalized * distance;
     }
 }
+

@@ -11,7 +11,7 @@ public class FollowCamera : MonoBehaviour
         _offset = transform.position - _player.transform.position;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         transform.position = _player.transform.position + _offset;
     }

@@ -11,12 +11,13 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private HealingPotion _healingPotion;
     [SerializeField] private ParticleSystem _particleHealing;
-    [SerializeField] private float _healthPoints;
+    //[SerializeField] private float _healthPoints;
 
     private Animator _animator;
     private Inventory _inventory;
     private PlayerMovement _playerMovement;
-    private float _maxHealthPoints = 100f;
+    private Health _health;
+    //private float _maxHealthPoints = 100f;
     private float _damage = 10f;
     private float _attackRange = 0.5f;
     private float _attackColdown = 0.5f;
@@ -24,10 +25,10 @@ public class Player : MonoBehaviour
     private bool _isDrawingModGizmos;
     private bool _isDead = false;
 
-    public event Action EventHealthHasChanged;
+    //public event Action EventHealthHasChanged;
 
     public bool IsDead => _isDead;
-    public float HealthPoints => _healthPoints;
+    //public float HealthPoints => _healthPoints;
     public Inventory GetInventory => _inventory;
 
     private void Awake()
@@ -35,8 +36,9 @@ public class Player : MonoBehaviour
         _animator = GetComponent<Animator>();
         _inventory = GetComponent<Inventory>();
         _playerMovement = GetComponent<PlayerMovement>();
+        _health = GetComponent<Health>();
         _isDrawingModGizmos = true;
-        _healthPoints = 50f;
+        //_healthPoints = 50f;
     }
 
     private void Update()
@@ -89,14 +91,14 @@ public class Player : MonoBehaviour
 
     private void Heal()
     {
+        float healthPoints;
         int potionUsed = -1;
-        _healthPoints += _healingPotion.Healing();
-        EventHealthHasChanged?.Invoke();
 
-        if (_healthPoints >= _maxHealthPoints)
-        {
-            _healthPoints = _maxHealthPoints;
-        }
+        healthPoints = _health.HealthPoints;
+        healthPoints += _healingPotion.Healing();
+        _health.SetHealthPoints(healthPoints);
+
+        //EventHealthHasChanged?.Invoke();
 
         _inventory.ChangeNumberOfPotions(potionUsed);
         _particleHealing.Play();
@@ -105,19 +107,25 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        float healthPoints;
+
         if (damage >= 0)
         {
-            _healthPoints -= damage;
-            _animator.SetTrigger(AnimatorPlayerController.Params.Hitting);
-            EventHealthHasChanged?.Invoke();
-
-            if (_healthPoints <= 0)
+            healthPoints = _health.HealthPoints;
+            healthPoints -= damage;
+            
+            if (healthPoints <= 0)
             {
                 _playerMovement.enabled = false;
-                _healthPoints = 0;
+                healthPoints = 0;
                 _isDead = true;
                 _animator.SetTrigger(AnimatorPlayerController.Params.Dead);
             }
+
+            _animator.SetTrigger(AnimatorPlayerController.Params.Hitting);
+            //EventHealthHasChanged?.Invoke();
+
+            _health.SetHealthPoints(healthPoints);
         }        
     }    
 }
@@ -129,5 +137,7 @@ public static class AnimatorPlayerController
         public const string Dead = nameof(Dead);
         public const string Hitting = nameof(Hitting);
         public const string Attack = nameof(Attack);
+        public const string IsGround = nameof(IsGround);
+        public const string IsRunning = nameof(IsRunning);
     }
 }

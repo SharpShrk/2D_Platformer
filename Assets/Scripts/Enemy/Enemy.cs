@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -12,7 +11,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform _attackZone;
     [SerializeField] private Player _player;
 
-    //private float _healthPoints = 100f;
     private float _attackZoneRange = 8f;
     private float _attackCooldown = 4f;
     private float _attackTimer = 1f;
@@ -27,10 +25,6 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
     private Health _health;
 
-    //public event Action EventEnemyTakedDamage;
-
-    //public float HealthPoints => _healthPoints;
-
     private void Awake()
     {
         _isDead = false;
@@ -41,7 +35,6 @@ public class Enemy : MonoBehaviour
         _health = GetComponent<Health>();
     }
 
-    
     private void Update()
     {
         if (_isDead == false)
@@ -76,7 +69,6 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject, _timeToDestroy);
         }
 
-        //EventEnemyTakedDamage?.Invoke();
         _health.SetHealthPoints(healthPoints);
     }
 
@@ -129,17 +121,5 @@ public class Enemy : MonoBehaviour
         {
             _jumpTimer -= Time.deltaTime;
         }
-    }
-}
-
-public static class AnimatorEnemyController
-{
-    public static class Params
-    {
-        public const string Dead = nameof(Dead);
-        public const string Damaged = nameof(Damaged);
-        public const string Attack = nameof(Attack);
-        public const string Jump = nameof(Jump);
-        public const string PlayerDead = nameof(PlayerDead);
     }
 }

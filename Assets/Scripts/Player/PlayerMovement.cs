@@ -84,14 +84,14 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
         Vector2 move = moveAlongGround * deltaPosition.x *_speed;
 
-        Movement(move, false);
+        Move(move, false);
 
         move = Vector2.up * deltaPosition.y;
 
-        Movement(move, true);
+        Move(move, true);
     }
 
-    void Movement(Vector2 move, bool yMovement)
+    void Move(Vector2 move, bool yMovement)
     {
         float distance = move.magnitude;
 

@@ -6,7 +6,6 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image _bar;
-    [SerializeField] GameObject _gameObject;
 
     private Health _health;
 
@@ -22,9 +21,9 @@ public class HealthBar : MonoBehaviour
         _health.EventHealthHasChanged -= SetHealthPonts;
     }
 
-    private void Start()
+    private void Awake()
     {
-        _health = _gameObject.GetComponent<Health>();
+        _health = GetComponent<Health>();
         _bar.fillAmount = _health.HealthPoints * _coefficientHealthPoints;
     }
 

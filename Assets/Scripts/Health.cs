@@ -21,6 +21,5 @@ public class Health : MonoBehaviour
         }
 
         EventHealthHasChanged?.Invoke();
-        Debug.Log("Здоровье изменилось");
     }
 }

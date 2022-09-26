@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -11,13 +10,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private HealingPotion _healingPotion;
     [SerializeField] private ParticleSystem _particleHealing;
-    //[SerializeField] private float _healthPoints;
 
     private Animator _animator;
     private Inventory _inventory;
     private PlayerMovement _playerMovement;
     private Health _health;
-    //private float _maxHealthPoints = 100f;
     private float _damage = 10f;
     private float _attackRange = 0.5f;
     private float _attackColdown = 0.5f;
@@ -25,10 +22,8 @@ public class Player : MonoBehaviour
     private bool _isDrawingModGizmos;
     private bool _isDead = false;
 
-    //public event Action EventHealthHasChanged;
-
     public bool IsDead => _isDead;
-    //public float HealthPoints => _healthPoints;
+
     public Inventory GetInventory => _inventory;
 
     private void Awake()
@@ -38,7 +33,6 @@ public class Player : MonoBehaviour
         _playerMovement = GetComponent<PlayerMovement>();
         _health = GetComponent<Health>();
         _isDrawingModGizmos = true;
-        //_healthPoints = 50f;
     }
 
     private void Update()
@@ -98,8 +92,6 @@ public class Player : MonoBehaviour
         healthPoints += _healingPotion.Healing();
         _health.SetHealthPoints(healthPoints);
 
-        //EventHealthHasChanged?.Invoke();
-
         _inventory.ChangeNumberOfPotions(potionUsed);
         _particleHealing.Play();
         AudioManager.Instance.PlayingPotionUsedClip();
@@ -123,21 +115,8 @@ public class Player : MonoBehaviour
             }
 
             _animator.SetTrigger(AnimatorPlayerController.Params.Hitting);
-            //EventHealthHasChanged?.Invoke();
 
             _health.SetHealthPoints(healthPoints);
         }        
     }    
-}
-
-public static class AnimatorPlayerController
-{
-    public static class Params 
-    { 
-        public const string Dead = nameof(Dead);
-        public const string Hitting = nameof(Hitting);
-        public const string Attack = nameof(Attack);
-        public const string IsGround = nameof(IsGround);
-        public const string IsRunning = nameof(IsRunning);
-    }
 }

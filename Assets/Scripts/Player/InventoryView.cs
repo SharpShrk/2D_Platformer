@@ -22,10 +22,10 @@ public class InventoryView : MonoBehaviour
 
     private void Update()
     {
-        GetInventoryItems();
+        TakeInventoryItems();
     }
 
-    private void GetInventoryItems()
+    private void TakeInventoryItems()
     {
         _numberOfPotions = _inventory.NumberOfPotions;
         _score = _inventory.Score;

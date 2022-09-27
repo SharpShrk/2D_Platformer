@@ -20,7 +20,7 @@ public class HealingPotion : MonoBehaviour
     {
         if(collision.TryGetComponent<Player>(out Player player))
         {
-            AudioManager.Instance.PlayingPotionCollectClip();
+            AudioManager.Instance.PlayPotionCollectClip();
             _inventory.ChangeNumberOfPotions(_numberOfPotions);
             Destroy(gameObject);
         }

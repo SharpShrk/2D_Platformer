@@ -18,7 +18,7 @@ public class Gem : MonoBehaviour
     {
         if (collision.TryGetComponent<Player>(out Player player))
         {
-            AudioManager.Instance.PlayingGemClip();
+            AudioManager.Instance.PlayGemClip();
             _inventory.ChangeNumberOfGems(_count);
             Destroy(gameObject);
         }

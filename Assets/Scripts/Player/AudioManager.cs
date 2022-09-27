@@ -27,22 +27,22 @@ public class AudioManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlayingGemClip()
+    public void PlayGemClip()
     {
         _audioSource.PlayOneShot(_gemClip);
     }
 
-    public void PlayingPotionCollectClip()
+    public void PlayPotionCollectClip()
     {
         _audioSource.PlayOneShot(_potionCollect);
     }
 
-    public void PlayingPotionUsedClip()
+    public void PlayPotionUsedClip()
     {
         _audioSource.PlayOneShot(_potionUsed);
     }
 
-    public void PlayingSwordAttackSound()
+    public void PlaySwordAttackSound()
     {
         _audioSource.PlayOneShot(_swordAttack);
     }

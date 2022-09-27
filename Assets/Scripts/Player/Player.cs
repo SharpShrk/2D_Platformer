@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 _animator.SetTrigger(AnimatorPlayerController.Params.Attack);
-                AudioManager.Instance.PlayingSwordAttackSound();
+                AudioManager.Instance.PlaySwordAttackSound();
 
                 Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange, _enemyLayerMask);
 
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
 
         _inventory.ChangeNumberOfPotions(potionUsed);
         _particleHealing.Play();
-        AudioManager.Instance.PlayingPotionUsedClip();
+        AudioManager.Instance.PlayPotionUsedClip();
     }
 
     public void TakeDamage(float damage)

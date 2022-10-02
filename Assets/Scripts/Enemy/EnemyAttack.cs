@@ -14,10 +14,12 @@ public class EnemyAttack : MonoBehaviour
 
     private Enemy _enemy;
     private Animator _animator;
+    private Coroutine _attackColldownCoroutine;
     private float _attackZoneRange = 8f;
     private float _attackCooldown = 4f;
     private bool _isDrawingModGizmos;
     private bool _isPlayerInAttackZone;
+    private bool _isAttackCooldownReset = true;
 
     public bool IsPlayerInAttackZone => _isPlayerInAttackZone;
 
@@ -27,17 +29,14 @@ public class EnemyAttack : MonoBehaviour
         _animator = GetComponent<Animator>();
         _isDrawingModGizmos = true;
         _isPlayerInAttackZone = false;
-}
+        _attackColldownCoroutine = StartCoroutine(AttackCooldown());
+    }
 
     private void Update()
     {
-        if (_enemy.IsDead == false)
+        if (_enemy.IsDead == false && _isAttackCooldownReset == true)
         {
-            StartCoroutine(AttackCooldown());
-        }
-        else
-        {
-            StopCoroutine(AttackCooldown());
+            Attack();
         }
     }
 
@@ -54,6 +53,15 @@ public class EnemyAttack : MonoBehaviour
     private void Attack()
     {
         _isPlayerInAttackZone = GetPlayerInAttackZone();
+
+        if (_attackColldownCoroutine != null)
+        {
+            StopCoroutine(_attackColldownCoroutine);
+        }
+
+        _attackColldownCoroutine = StartCoroutine(AttackCooldown());
+
+        Debug.Log("Атака");
 
         if (_isPlayerInAttackZone == true && _player.IsDead == false)
         {
@@ -85,8 +93,12 @@ public class EnemyAttack : MonoBehaviour
     {
         var attackCooldown = new WaitForSeconds(_attackCooldown);
 
-        Attack();
+        Debug.Log("Корутина");
+
+        _isAttackCooldownReset = false;
 
         yield return attackCooldown;
+
+        _isAttackCooldownReset = true;
     }
 }
